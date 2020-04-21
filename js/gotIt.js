@@ -33,7 +33,7 @@ firebase.database().ref(_nodeFolder + '/' + _nodeId).set(_nodeObject);
 
 }
 
-// createNode(folderName, "test", {text:"hello"});
+// createNode(folderName, "test", {text:"Hello Teleport your Messsage Here"});
 
 
 // the update method will update an existing node
