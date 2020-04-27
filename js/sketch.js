@@ -8,15 +8,28 @@ let database; // reference to our firebase database
 let folderName = 'messages' // name of folder you create in db
 let messageInpute;
 let sendMessageBtn;
+let receiveMessageBtn;
+let sendAgainBtn;
+let receivedMessage;
+let receiveDiv;
+let sendDiv;
 
 function setup() {
   noCanvas();
 
+  // access DOM elements
   // messageInpute = select("#messageInpute");
   messageInpute = document.querySelector("#messageInpute");
   sendMessageBtn = document.querySelector("#sendMessageBtn");
+  receiveMessageBtn = document.querySelector("#receiveMessageBtn");
+  sendAgainBtn = document.querySelector("#sendAgainBtn");
+  receivedMessage = document.querySelector("#receivedMessage");
+  receiveDiv = document.querySelector("#receiveDiv");
+  sendDiv = document.querySelector("#sendDiv");
 
   sendMessageBtn.addEventListener('click', sendMessage);
+  receiveMessageBtn.addEventListener('click', receiveMessage);
+  sendAgainBtn.addEventListener('click', sendAgain);
 
   // Initialize firebase
   // support for Firebase Realtime Database 4 web here: https://firebase.google.com/docs/database/web/start
@@ -68,6 +81,8 @@ function sendMessage() {
     createP(`sent message: ${nodeData.messageText}`);
 
     messageInpute.value = ''
+    sendDiv.style.display = 'none';
+    receiveDiv.style.diplay = 'block';
 
   } else {
     alert("uh oh. type message first")
@@ -76,11 +91,28 @@ function sendMessage() {
 
 function receiveMessage() {
   for (let i = 0; i < fbDataArray.length; i++) {
-    if(fbDataArray[i].received === false){
-    console.log("received message:");
-    console.log(fbDataArray[0].messageText);
-  }else{
-    console.log("no more messages to teleport")
-   }
+    if (fbDataArray[i].received === false) {
+      // console.log("received message:");
+      // console.log(fbDataArray[i].messageText);
+
+      receivedMessage.innerHTML = fbDataArray[i].messageText;
+
+      updateNode(folderName,fbDataArray[i].timestamp, {
+        receive: true
+      });
+
+    receiveMessageBtn.style.diplay = 'none';
+      sendAgainBtn.style.display = 'block';
+
+      break;
+
+    } else {
+      receivedMessage.innerHTML = "no more messages to teleport";
+      // console.log("no more messages to teleport")
+    }
   }
+}
+function sendAgain(){
+  receiveDiv.style.diplay = 'none';
+  sendDiv.style.display = 'block';
 }
