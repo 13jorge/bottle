@@ -82,7 +82,8 @@ function sendMessage() {
 
     messageInpute.value = ''
     sendDiv.style.display = 'none';
-    receiveDiv.style.diplay = 'block';
+    receiveDiv.style.display = 'block';
+
 
   } else {
     alert("uh oh. type message first")
@@ -97,12 +98,13 @@ function receiveMessage() {
 
       receivedMessage.innerHTML = fbDataArray[i].messageText;
 
-      updateNode(folderName,fbDataArray[i].timestamp, {
+      createNode(folderName,fbDataArray[i].timestamp, {
         receive: true
       });
 
     receiveMessageBtn.style.diplay = 'none';
       sendAgainBtn.style.display = 'block';
+
 
       break;
 
@@ -113,6 +115,13 @@ function receiveMessage() {
   }
 }
 function sendAgain(){
+
+  // reset receive div
+  receivedMessage.innerHTML = "";
+  receiveMessageBtn.style.display = 'block';
+  sendAgainBtn.style.display = 'none';
+
+
   receiveDiv.style.diplay = 'none';
   sendDiv.style.display = 'block';
 }
